@@ -36,6 +36,29 @@ public class IceArenaController {
     private Label top_label, enterform_label;
 
     @FXML
+    void initialize() {
+        chosebox_arenas.getItems().add("Area #1");
+        chosebox_arenas.getItems().add("Area #2");
+        chosebox_arenas.getItems().add("Area #3");
+        anchor_content.setDisable(true);
+        hideEnterForm();
+
+        button_close.setOnAction(actionEvent -> {
+            Platform.exit();
+            System.exit(0);
+        });
+
+        chosebox_arenas.setOnAction(actionEvent -> {
+            if(chosebox_arenas.getValue() == null) return;
+            try {
+                loadDataToList();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        });
+    }
+
+    @FXML
     void mouse_enter(MouseEvent event) {
         ((Button) event.getSource()).setStyle("-fx-background-radius: 10; -fx-background-color: #131112; -fx-border-color: #000000ff; -fx-border-radius: 10; " +
                 "-fx-border-insets: -1; -fx-text-fill: #fff");
@@ -227,28 +250,6 @@ public class IceArenaController {
 
     }
 
-    @FXML
-    void initialize() {
-        chosebox_arenas.getItems().add("Area #1");
-        chosebox_arenas.getItems().add("Area #2");
-        chosebox_arenas.getItems().add("Area #3");
-        anchor_content.setDisable(true);
-        hideEnterForm();
-
-        button_close.setOnAction(actionEvent -> {
-            Platform.exit();
-            System.exit(0);
-        });
-
-        chosebox_arenas.setOnAction(actionEvent -> {
-            if(chosebox_arenas.getValue() == null) return;
-            try {
-                loadDataToList();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        });
-    }
 
     private void loadDataToList() throws SQLException {
         int areaID = Integer.parseInt(String.valueOf(chosebox_arenas.getValue().charAt(6)));
